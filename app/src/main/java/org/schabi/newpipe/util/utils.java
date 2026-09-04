@@ -8,6 +8,9 @@ import java.text.RuleBasedCollator;
 import java.util.Locale;
 
 public class utils {
+    private static final ThreadLocal<Collator> CHINESE_COLLATOR =
+            ThreadLocal.withInitial(() -> Collator.getInstance(Locale.CHINESE));
+
     public static boolean DetimestampedEqual(String a, String b){
         return Detimestamp(a).equals(Detimestamp(b));
     }
@@ -63,8 +66,7 @@ public class utils {
         return collator.compare(str1, str2);
     }
     public static int compareChineseStrings(String str1, String str2) {
-        Collator collator = Collator.getInstance(Locale.CHINESE);
-        return collator.compare(str1, str2);
+        return CHINESE_COLLATOR.get().compare(str1, str2);
     }
 
     public static String convertDateToYYYYMMDD(String yymmdd) {
